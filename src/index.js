@@ -19,10 +19,20 @@ import { serverResponse } from './utils/helpers'
 
 const app = express()
 
+/**
+ * Connect to MongoDB.
+ */
 mongoose.connect(config.dbUrl, {
   useCreateIndex: true,
   useNewUrlParser: true
 })
+mongoose.connection
+  .on('open', () => {
+    console.log('Mongoose connection open')
+  })
+  .on('error', (err) => {
+    console.log(`Connection error: ${err.message}`)
+  })
 
 /**
  * Helpers
