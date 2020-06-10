@@ -92,5 +92,5 @@ app.set('port', port)
  * Listen on provided port, on all network interfaces.
  */
 app.listen(port, () => {
-  console.log('Server is up on port 6000!')
+  console.log(`Server is up on port ${port}!`)
 })
