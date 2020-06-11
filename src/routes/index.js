@@ -1,24 +1,23 @@
 import express from 'express'
-import { serverResponse } from '../utils/helpers'
+import { handleServerResponse } from '../utils/helpers'
 
 /**
  * Import Routes
  */
-import userRoutes from './user.routes'
+import authRoutes from './auth.routes'
 
 const router = express.Router()
 
 /**
+ * Route Blueprint Definitions
+ *
  * Use API Routes
  */
-router.use('/users', userRoutes)
+router.use('/auth', authRoutes)
 
-/**
- * Route Blueprint Definitions
- */
 /* GET api home route. */
 router.get('/', (req, res) => {
-  serverResponse(res, 'Welcome to the beginning of nothingness')
+  return handleServerResponse(res, 'Welcome to the beginning of Nothingness 🚀')
 })
 
 export default router

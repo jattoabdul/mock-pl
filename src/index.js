@@ -6,8 +6,11 @@ import mongoose from 'mongoose'
 import helmet from 'helmet'
 import logger from 'morgan'
 import cors from 'cors'
+import 'regenerator-runtime/runtime.js' // TODO: Review the use of this
 import { json, urlencoded } from 'body-parser'
-import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import redis from 'redis'
+import connectRedis from 'connect-redis'
 
 import config from './config'
 
@@ -15,7 +18,10 @@ import config from './config'
  * Import API Routes.
  */
 import api from './routes/index'
-import { serverResponse } from './utils/helpers'
+import { handleServerResponse } from './utils/helpers'
+
+const RedisStore = connectRedis(session)
+const redisClient = redis.createClient()
 
 const app = express()
 
@@ -70,8 +76,39 @@ app.use(helmet())
   .use(urlencoded({
     extended: false
   }))
-  .use(logger('dev'))
-  .use(cookieParser())
+
+if (config.environment !== 'production') {
+  app.use(logger('dev'))
+}
+
+const sessionTimeout = 3600000
+const sess = {
+  name: 'user_sid',
+  secret: config.sessionSecret,
+  store: new RedisStore({ client: redisClient }),
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    expires: new Date(Date.now() + sessionTimeout),
+    maxAge: sessionTimeout
+  }
+}
+redisClient.on('error', () => console.error('oh no'))
+
+if (config.environment === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
+
+// Handle Session Exceptions
+app.use(function (req, res, next) {
+  if (!req.session.accessToken) {
+    res.clearCookie('user_sid')
+  }
+  next()
+})
 
 /**
  * Use API Routes
@@ -79,16 +116,9 @@ app.use(helmet())
 app.use('/v1', api)
 app.use('/api/v1', api)
 
-/**
- * Root Application Route Blueprint Definitions
- */
-/* GET home route. */
-app.get('/', (req, res) => {
-  serverResponse(res, 'Welcome to the Workshop')
-})
 /* GET * all unmatched routes. */
 app.all('*', (req, res) => {
-  serverResponse(res, 'Invalid route', 404, 'error')
+  handleServerResponse(res, "Invalid route! try '/'", 404)
 })
 
 /**
