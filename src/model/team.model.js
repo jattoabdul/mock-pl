@@ -1,7 +1,4 @@
 import { Schema, model } from 'mongoose'
-import { v1 as uuid } from 'uuid'
-
-const { ObjectId } = Schema.Types
 
 /**
  * User Model Schema.
@@ -19,10 +16,6 @@ const teamSchema = new Schema({
     required: 'Team Acronym is Required',
     validate: [(email) => email.length === 3, 'Please input exactly 3 characters']
   },
-  // fixtures: [{
-  //   type: ObjectId,
-  //   ref: 'Fixture'
-  // }],
   createdAt: {
     type: Date,
     default: Date.now

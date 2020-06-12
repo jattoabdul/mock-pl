@@ -161,26 +161,3 @@ export const getTeams = async (req, res) => {
     return handleServerError(res, err)
   }
 }
-
-/**
- * @method getTeams
- * @desc fetch all teams
- * @param {object} req request from client
- * @param {object} res response from server
- */
-// export const search = async (req, res) => {
-//   try {
-//     const teams = await TeamModel.find()
-//       .select('-__v')
-//       .populate('fixtures', '-__v')
-//
-//     return handleServerResponse(res, {
-//       success: true,
-//       payload: {
-//         teams
-//       }
-//     })
-//   } catch (err) {
-//     return handleServerError(res, err)
-//   }
-// }
