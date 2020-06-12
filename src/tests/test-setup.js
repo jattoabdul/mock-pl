@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
+// import redisMock from 'redis-mock'
 import { redisClient } from '../server'
 
+// jest.spyOn(redisClient, 'createClient').mockImplementation(redisMock.createClient)
 mongoose.set('useCreateIndex', true)
 mongoose.set('useUnifiedTopology', true)
 mongoose.promise = global.Promise
@@ -34,6 +36,15 @@ const closeRedisInstance = (callback) => {
   redisClient.quit(callback)
 }
 
+const disconnectedDB = () => {
+  // Disconnect Mongoose
+  afterAll(async () => {
+    await dropAllCollections()
+    await mongoose.connection.close()
+    await closeRedisInstance()
+  })
+}
+
 const setupDB = (databaseName) => {
   // Connect to Mongoose
   beforeAll(async () => {
@@ -55,5 +66,6 @@ const setupDB = (databaseName) => {
 }
 
 module.exports = {
-  setupDB
+  setupDB,
+  disconnectedDB
 }
