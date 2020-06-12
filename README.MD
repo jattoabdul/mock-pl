@@ -2,6 +2,8 @@
 
 A simple API that serves the latest scores of fixtures of matches in a “Mock Premier League”
 
+> APP URL => https://mock-pl-test.herokuapp.com/api/v1
+
 #### Acceptance Criteria
 There should be:
 
@@ -33,8 +35,6 @@ There should be:
 > - Start Redis Server: `$ redis-server`
 > - Copy and Update Environment Variable: `cp .env.sample .env`
 > - Install Dependencies: `$ yarn install`
-> - Create and Setup Database: `$ `
-> - Migrate DB: `$ `
 > - Start Application Server `$ yarn dev`
 > - To test with ngrok, start a tunnel with: `$ ngrok http 3000`
 > - Access App on `http//:localhost:3000` or via ngrok on generated URL
