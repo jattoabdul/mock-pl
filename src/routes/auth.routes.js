@@ -22,7 +22,7 @@ const router = express.Router()
  */
 router.post('/signup', signupPolicy, createUser)
 router.post('/login', loginPolicy, loginUser)
-router.put('/logout', signout)
+router.delete('/logout', signout)
 router.put('/toggle/role', toggleRolePolicy, validateSession, validateToken, isAdmin, toggleUserRole)
 
 export default router

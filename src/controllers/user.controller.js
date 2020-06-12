@@ -3,7 +3,7 @@ import {
   // decodeToken,
   handleServerError,
   handleServerResponse,
-  createToken, log
+  createToken
 } from '../utils/helpers'
 import { v1 as uuid } from 'uuid'
 
@@ -34,7 +34,7 @@ export const createUser = async (req, res) => {
     if (emailExist) return handleServerError(res, 'User already exist', 409)
 
     const user = new UserModel({
-      name: name.trim().toLowerCase(),
+      name: name.trim(),
       email: email.trim().toLowerCase(),
       password: password.trim()
     })
@@ -211,7 +211,6 @@ export const toggleUserRole = async (req, res) => {
       role: user.role
     }
 
-    log({ session: req.session, msg: 'I am testing session' })
     return handleServerResponse(res, {
       success: true,
       payload: {

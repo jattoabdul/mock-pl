@@ -12,7 +12,10 @@
     "start": "node dist/",
     "start:run": "yarn build && yarn start",
     "dev": "nodemon --watch 'src/*' --exec 'yarn build && node ./dist/index'",
-    "lint": "./node_modules/.bin/eslint . --fix"
+    "lint": "./node_modules/.bin/eslint . --fix",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand --detectOpenHandles --coverage --forceExit",
+    "test:watch": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand --detectOpenHandles --watch",
+    "pretest": "cross-env NODE_ENV=test echo \\\"Pretesting and Deleting DB Record\\\""
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,13 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jattoabdul/mock-pl/issues"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ]
   },
   "homepage": "https://github.com/jattoabdul/mock-pl#readme",
   "dependencies": {
@@ -65,14 +75,19 @@
     "@babel/plugin-proposal-private-methods": "^7.6.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-stage-3": "^7.0.0",
+    "@shelf/jest-mongodb": "^1.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "cross-env": "^7.0.2",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.0.1",
     "nodemon": "^2.0.1",
+    "redis-mock": "^0.49.0",
+    "supertest": "^4.0.2",
     "yarn": "^1.19.1"
   }
 }

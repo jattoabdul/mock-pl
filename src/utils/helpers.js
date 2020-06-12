@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import 'regenerator-runtime/runtime.js'
 
 import { isString, isObject } from './validator'
 
@@ -32,7 +33,6 @@ export const log = (data, logType = 'info') => {
  * @returns {*} server response
  */
 export const handleServerResponse = (res, data, status = 200) => {
-  log(data) // TODO: Remove logs
   if (isString(data)) {
     return res.status(status).json({ message: data })
   } else if (isObject(data)) {
@@ -69,7 +69,6 @@ export const sendResponse = (req, res) => {
  * @returns {*} error response
  */
 export const handleServerError = (response, msg, status = 500) => {
-  log(msg, 'error') // TODO: Remove logs
   return response.status(status || 500).send({
     success: false,
     message: msg
@@ -252,9 +251,6 @@ export const createToken = (data, tokenType = 'loginSignup') => {
  */
 export const validateSession = async (req, res, next) => {
   if (req.session.accessToken) {
-    console.log('::found session start')
-    console.log(req.session)
-    console.log('::found session end')
     return next()
   }
   return handleServerError(res, 'Your Session has expired, Please Relogin', 401)
@@ -283,7 +279,7 @@ export const validateToken = async (req, res, next) => {
       if (!decoded._id) return handleServerError(res, 'token has no id!', 403)
 
       const user = await User.findById(decoded._id).select('accessToken')
-      console.log(JSON.stringify(user, null, 2))
+
       if (!user) return handleServerError(res, 'User not found or has been removed', 401)
 
       if (!user.accessToken || req.session.accessToken !== decoded.authKey || user.accessToken !== decoded.authKey) {
@@ -291,11 +287,6 @@ export const validateToken = async (req, res, next) => {
       }
 
       req.user = decoded
-      console.log('start of decoded token val')
-      console.log({
-        decoded
-      })
-      console.log('end of decoded token val')
 
       return next()
     } catch (err) {
