@@ -60,10 +60,8 @@ export const updateTeam = async (req, res) => {
       acronym
     } = req.body
 
-    // check if category exists
-    console.log(id, 'findOne id')
+    // check if team exists
     let teamExist = await TeamModel.findById(id)
-    console.log(teamExist, 'findOne team')
 
     if (!teamExist) return handleServerError(res, 'Team does not exist', 404)
 
@@ -96,11 +94,11 @@ export const removeTeam = async (req, res) => {
       id
     } = req.params
     const team = await TeamModel.findById(id)
-    // .populate('fixtures')
+      .populate('fixtures')
 
     if (!team) return handleServerError(res, 'Team not found or has been deleted', 403)
 
-    // if (team.fixtures.length) return handleServerError(res, 'Team has fixtures, can\'t delete', 403)
+    if (team.fixtures.length) return handleServerError(res, 'Team has fixtures, can\'t delete', 403)
 
     await team.remove()
 
@@ -123,7 +121,8 @@ export const removeTeam = async (req, res) => {
 export const getTeams = async (req, res) => {
   try {
     const teams = await TeamModel.find()
-    // .populate('fixtures')
+      .select('-__v')
+      .populate('fixtures', '-__v')
 
     return handleServerResponse(res, {
       success: true,

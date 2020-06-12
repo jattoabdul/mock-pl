@@ -43,6 +43,7 @@ describe('Auth Routes', () => {
           .headers['set-cookie'][1] // TODO: figure out why not the first value[0]
           .split(',')
           .map(item => item.split(';')[0])
+
         // generate JWT token and add to request header Authorization
         const token = createToken({
           _id: adminUser._id,

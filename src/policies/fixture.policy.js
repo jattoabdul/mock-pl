@@ -51,16 +51,19 @@ export const addFixturePolicy = (req, res, next) => {
  */
 export const editFixturePolicy = (req, res, next) => {
   const {
+    status,
     gameWeek,
     matchDay
   } = req.body
 
   const schema = Joi.object({
+    status: Joi.string(),
     gameWeek: Joi.number().min(1),
     matchDay: Joi.date().format('YYYY-MM-DD').utc()
   })
 
   const { error } = schema.validate({
+    status,
     gameWeek,
     matchDay
   })

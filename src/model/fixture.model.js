@@ -11,6 +11,11 @@ const fixtureSchema = new Schema({
     unique: true,
     type: String
   },
+  status: {
+    type: String,
+    enum: ['pending', 'started', 'completed'],
+    default: 'pending'
+  },
   schedule: {
     matchDay: {
       type: Date,

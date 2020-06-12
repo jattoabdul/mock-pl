@@ -32,7 +32,7 @@ router.get('/all', validateSession, validateToken, getFixtures)
 
 // Admin Routes
 router.post('/', addFixturePolicy, validateSession, validateToken, isAdmin, createFixture)
-router.post('/:id/link/generate', addFixturePolicy, validateSession, validateToken, isAdmin, generateFixtureLink)
+router.post('/:id/link/generate', validateSession, validateToken, isAdmin, generateFixtureLink)
 router.put('/:id', editFixturePolicy, validateSession, validateToken, isAdmin, updateFixture)
 router.delete('/:id', validateSession, validateToken, isAdmin, removeFixture)
 
