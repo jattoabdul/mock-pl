@@ -47,7 +47,6 @@ export const search = async (req, res) => {
     ])
 
     const result = [...teams, ...fixtures]
-    console.log(result, 'res')
     if (!result.length) {
       return handleServerError(res, 'No record found', 403)
     }
