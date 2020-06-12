@@ -19,7 +19,7 @@ export const createTeam = async (req, res) => {
       acronym
     } = req.body
 
-    // check if category exists
+    // check if team exists
     const teamExist = await TeamModel.findOne({
       acronym
     })

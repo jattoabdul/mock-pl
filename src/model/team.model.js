@@ -12,7 +12,7 @@ const teamSchema = new Schema({
   },
   acronym: {
     type: String,
-    capitalize: true,
+    uppercase: true,
     unique: true,
     trim: true,
     required: 'Team Acronym is Required',
@@ -32,7 +32,9 @@ const teamSchema = new Schema({
 })
 
 teamSchema.pre('save', function (next) {
-  this.updatedAt = Date.now()
+  const team = this
+  team.updatedAt = Date.now()
+  // team.acronym = team.acronym.toUpperCase()
 
   return next()
 })

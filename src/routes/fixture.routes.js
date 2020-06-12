@@ -3,7 +3,7 @@ import express from 'express'
 /**
  * Import Policies.
  */
-import { addOrEditFixturePolicy } from '../policies/fixture.policy'
+import { addFixturePolicy, editFixturePolicy } from '../policies/fixture.policy'
 
 /**
  * Import Controllers.
@@ -31,9 +31,9 @@ router.get('/', validateSession, validateToken, getFixtures)
 router.get('/all', validateSession, validateToken, getFixtures)
 
 // Admin Routes
-router.post('/', addOrEditFixturePolicy, validateSession, validateToken, isAdmin, createFixture)
-router.post('/:id/link/generate', addOrEditFixturePolicy, validateSession, validateToken, isAdmin, generateFixtureLink)
-router.put('/:id', addOrEditFixturePolicy, validateSession, validateToken, isAdmin, updateFixture)
+router.post('/', addFixturePolicy, validateSession, validateToken, isAdmin, createFixture)
+router.post('/:id/link/generate', addFixturePolicy, validateSession, validateToken, isAdmin, generateFixtureLink)
+router.put('/:id', editFixturePolicy, validateSession, validateToken, isAdmin, updateFixture)
 router.delete('/:id', validateSession, validateToken, isAdmin, removeFixture)
 
 export default router

@@ -1,9 +1,12 @@
 import {
+  generateId,
   handleServerError,
   handleServerResponse
 } from '../utils/helpers'
 
+
 import FixtureModel from '../model/fixture.model'
+import { v1 as uuid } from 'uuid'
 
 /**
  * @method createFixture
@@ -15,21 +18,30 @@ import FixtureModel from '../model/fixture.model'
 export const createFixture = async (req, res) => {
   try {
     const {
-      name,
-      acronym
+      homeTeam,
+      awayTeam,
+      gameWeek,
+      matchDay
     } = req.body
 
-    // check if category exists
+    // check if fixture exists
     const fixtureExist = await FixtureModel.findOne({
-      acronym
+      homeTeam, awayTeam
     })
 
-    if (fixtureExist) return handleServerError(res, 'fixture with this acronym already exist', 400)
+    if (fixtureExist) return handleServerError(res, 'fixture for this teams already exist', 400)
 
     const newFixture = await new FixtureModel({
-      name,
-      acronym
-    }).save()
+      key: uuid(),
+      homeTeam,
+      awayTeam
+    })
+    newFixture.schedule = {
+      matchDay: Date.parse(matchDay),
+      gameWeek: Number(gameWeek)
+    }
+
+    newFixture.save()
 
     return handleServerResponse(res, {
       success: true,
@@ -56,19 +68,18 @@ export const updateFixture = async (req, res) => {
       id
     } = req.params
     const {
-      name,
-      acronym
+      gameWeek,
+      matchDay
     } = req.body
 
-    // check if category exists
-    console.log(id, 'findOne id')
+    // check if fixture exists
     let fixtureExist = await FixtureModel.findById(id)
     console.log(fixtureExist, 'findOne fixture')
 
     if (!fixtureExist) return handleServerError(res, 'Fixture does not exist', 404)
 
-    if (name) fixtureExist.name = name
-    if (acronym) fixtureExist.acronym = acronym
+    if (gameWeek) fixtureExist.schedule.gameWeek = gameWeek
+    if (matchDay) fixtureExist.schedule.matchDay = matchDay
 
     fixtureExist = await fixtureExist.save()
 
@@ -123,7 +134,11 @@ export const removeFixture = async (req, res) => {
 export const getFixtures = async (req, res) => {
   try {
     const fixtures = await FixtureModel.find()
-    // .populate('fixtures')
+      .select('-__v')
+      .populate('homeTeam', 'name acronym')
+      // .populate('homeTeam', '-_id -__v -fixtures -createdAt -updatedAt')
+      .populate('awayTeam', 'name acronym')
+      // .populate('awayTeam', '-_id -__v -fixtures -createdAt -updatedAt')
 
     return handleServerResponse(res, {
       success: true,
