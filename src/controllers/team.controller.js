@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import {
   handleServerError,
   handleServerResponse
@@ -93,13 +94,39 @@ export const removeTeam = async (req, res) => {
     const {
       id
     } = req.params
-    const team = await TeamModel.findById(id)
-      .populate('fixtures')
 
-    if (!team) return handleServerError(res, 'Team not found or has been deleted', 403)
+    let team = await TeamModel.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(id)
+        }
+      },
+      {
+        $lookup: {
+          from: 'fixtures',
+          let: { team_id: '$_id' },
+          as: 'fixtures',
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ['$homeTeam', '$$team_id'] },
+                    { $eq: ['$awayTeam', '$$team_id'] }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ])
 
-    if (team.fixtures.length) return handleServerError(res, 'Team has fixtures, can\'t delete', 403)
+    if (!team.length) return handleServerError(res, 'Team not found or has been deleted', 403)
 
+    if (team[0].fixtures.length) return handleServerError(res, 'Team has fixtures, can\'t be deleted', 403)
+
+    team = await TeamModel.findById(id)
     await team.remove()
 
     return handleServerResponse(res, {
@@ -134,3 +161,26 @@ export const getTeams = async (req, res) => {
     return handleServerError(res, err)
   }
 }
+
+/**
+ * @method getTeams
+ * @desc fetch all teams
+ * @param {object} req request from client
+ * @param {object} res response from server
+ */
+// export const search = async (req, res) => {
+//   try {
+//     const teams = await TeamModel.find()
+//       .select('-__v')
+//       .populate('fixtures', '-__v')
+//
+//     return handleServerResponse(res, {
+//       success: true,
+//       payload: {
+//         teams
+//       }
+//     })
+//   } catch (err) {
+//     return handleServerError(res, err)
+//   }
+// }

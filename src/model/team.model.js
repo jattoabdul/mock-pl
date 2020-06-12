@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import { v1 as uuid } from 'uuid'
 
 const { ObjectId } = Schema.Types
 
@@ -18,10 +19,10 @@ const teamSchema = new Schema({
     required: 'Team Acronym is Required',
     validate: [(email) => email.length === 3, 'Please input exactly 3 characters']
   },
-  fixtures: [{
-    type: ObjectId,
-    ref: 'Fixture'
-  }],
+  // fixtures: [{
+  //   type: ObjectId,
+  //   ref: 'Fixture'
+  // }],
   createdAt: {
     type: Date,
     default: Date.now
@@ -34,11 +35,11 @@ const teamSchema = new Schema({
 teamSchema.pre('save', function (next) {
   const team = this
   team.updatedAt = Date.now()
-  // team.acronym = team.acronym.toUpperCase()
 
   return next()
 })
 
+teamSchema.index({ acronym: 1 }, { key: 'acronym', unique: true })
 /**
  * Team Model Table.
  */
