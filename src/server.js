@@ -20,8 +20,9 @@ import config from './config'
  */
 import api from './routes/index'
 
+const redisURL = config.redisURL
 const RedisStore = connectRedis(session)
-const redisClient = redis.createClient()
+const redisClient = redis.createClient(redisURL)
 
 const app = express()
 
