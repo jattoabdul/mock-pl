@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 const { ObjectId } = Schema.Types
 
 /**
- * User MOdel Schema.
+ * User Model Schema.
  */
 const teamSchema = new Schema({
   name: {
