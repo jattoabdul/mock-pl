@@ -19,6 +19,7 @@ export const search = async (req, res) => {
       term
     } = req.query
 
+    // TODO: use $regex matchers
     const teams = await TeamModel.aggregate([
       {
         $match: {
