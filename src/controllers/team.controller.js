@@ -3,7 +3,6 @@ import {
   handleServerResponse
 } from '../utils/helpers'
 
-import config from '../config'
 import TeamModel from '../model/team.model'
 
 /**
