@@ -7,10 +7,7 @@ import { hashPassword } from '../utils/helpers'
  * User MOdel Schema.
  */
 const userSchema = new Schema({
-  name: {
-    type: String,
-    lowecase: true
-  },
+  name: String,
   email: {
     type: String,
     trim: true,
