@@ -30,25 +30,6 @@ export const search = async (req, res) => {
           }
         }
       }
-      // {
-      //   $lookup: {
-      //     from: 'fixtures',
-      //     let: { team_id: '$_id' },
-      //     as: 'fixtures',
-      //     pipeline: [
-      //       {
-      //         $match: {
-      //           $expr: {
-      //             $or: [
-      //               { $eq: ['$homeTeam', '$$team_id'] },
-      //               { $eq: ['$awayTeam', '$$team_id'] }
-      //             ]
-      //           }
-      //         }
-      //       }
-      //     ]
-      //   }
-      // }
     ])
 
     const fixtures = await FixtureModel.aggregate([
@@ -62,25 +43,6 @@ export const search = async (req, res) => {
           }
         }
       }
-      // {
-      //   $lookup: {
-      //     from: 'fixtures',
-      //     let: { team_id: '$_id' },
-      //     as: 'fixtures',
-      //     pipeline: [
-      //       {
-      //         $match: {
-      //           $expr: {
-      //             $or: [
-      //               { $eq: ['$homeTeam', '$$team_id'] },
-      //               { $eq: ['$awayTeam', '$$team_id'] }
-      //             ]
-      //           }
-      //         }
-      //       }
-      //     ]
-      //   }
-      // }
     ])
 
     const result = [...teams, ...fixtures]
