@@ -6,6 +6,7 @@ import { handleServerResponse } from '../utils/helpers'
  */
 import authRoutes from './auth.routes'
 import teamRoutes from './team.routes'
+import fixtureRoutes from './fixture.routes'
 
 const router = express.Router()
 
@@ -15,6 +16,7 @@ const router = express.Router()
  * Use API Routes
  */
 router.use('/auth', authRoutes)
+router.use('/fixtures', fixtureRoutes)
 router.use('/teams', teamRoutes)
 
 /* GET api home route. */

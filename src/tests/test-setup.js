@@ -34,6 +34,15 @@ const closeRedisInstance = (callback) => {
   redisClient.quit(callback)
 }
 
+const disconnectedDB = () => {
+  // Disconnect Mongoose
+  afterAll(async () => {
+    await dropAllCollections()
+    await mongoose.connection.close()
+    await closeRedisInstance()
+  })
+}
+
 const setupDB = (databaseName) => {
   // Connect to Mongoose
   beforeAll(async () => {
@@ -55,5 +64,6 @@ const setupDB = (databaseName) => {
 }
 
 module.exports = {
-  setupDB
+  setupDB,
+  disconnectedDB
 }

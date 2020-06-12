@@ -9,6 +9,7 @@ dotenv.config()
  * Authorization Roles.
  */
 const Roles = ['customer', 'admin', 'super_admin']
+const FixtureStatus = ['pending', 'started', 'completed']
 
 /**
  * App Wide Environment Variables.
@@ -22,6 +23,7 @@ export default {
   sessionSecret: process.env.SESSION_SECRET,
   tokenLifespan: process.env.TOKEN_LIFESPAN || (1000 * 3600 * 24 * 3),
   Roles,
+  FixtureStatus,
   paginationConfigs: {
     perPage: 50
   }

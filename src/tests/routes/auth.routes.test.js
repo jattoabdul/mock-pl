@@ -12,7 +12,7 @@ const dbName = `mockpl_${config.environment}`
 const request = supertest(app)
 
 // Setup a Test Database
-setupDB(`${dbName}_auth`)
+setupDB(dbName)
 
 /**
  * Auth Route Tests.

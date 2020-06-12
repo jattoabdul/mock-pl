@@ -199,6 +199,13 @@ export const getFirstDayOfTheMonth = () => {
 }
 
 /**
+ * @desc get First day of the month
+ * @function firstDateIsPastDayComparedToSecondDate
+ * @return {Date} date object for first date is has past second date
+ */
+export const firstDateIsPastDayComparedToSecondDate = (firstDate, secondDate) => firstDate.setHours(0,0,0,0) - secondDate.setHours(0,0,0,0) < 0
+
+/**
  * Auth Helpers.
  */
 
