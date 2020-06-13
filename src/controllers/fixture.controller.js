@@ -6,7 +6,6 @@ import {
 
 import FixtureModel from '../model/fixture.model'
 import { v1 as uuid } from 'uuid'
-import UserModel from '../model/user.model'
 import config from '../config'
 
 /**
@@ -145,8 +144,6 @@ export const getFixtures = async (req, res) => {
       status
     } = req.query
 
-    console.log(status, 'status query')
-
     const queryParam = {}
 
     // if status and status exists in allowed status, add to queryParam.status
@@ -200,7 +197,7 @@ export const generateFixtureLink = async (req, res) => {
       payload: {
         fixture: {
           ...fixture,
-          link: `http://host.com/api/v1/fixtures?key=${fixture.key}`
+          link: `${config.appURL}/api/v1/fixtures?key=${fixture.key}`
         }
       }
     })
