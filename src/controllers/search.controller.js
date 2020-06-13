@@ -18,16 +18,13 @@ export const search = async (req, res) => {
       term
     } = req.query
 
-    // TODO: use $regex matchers
     const teams = await TeamModel.aggregate([
       {
         $match: {
-          $expr: {
-            $or: [
-              { $eq: ['$name', term] },
-              { $eq: ['$acronym', term] }
-            ]
-          }
+          $or: [
+            { name: { $regex: new RegExp(term, 'i') } },
+            { acronym: { $regex: new RegExp(term, 'i') } }
+          ]
         }
       }
     ])
@@ -35,12 +32,10 @@ export const search = async (req, res) => {
     const fixtures = await FixtureModel.aggregate([
       {
         $match: {
-          $expr: {
-            $or: [
-              { $eq: ['$status', term] },
-              { $eq: ['$key', term] }
-            ]
-          }
+          $or: [
+            { status: { $regex: new RegExp(term, 'i') } },
+            { key: { $regex: new RegExp(term, 'i') } }
+          ]
         }
       }
     ])
