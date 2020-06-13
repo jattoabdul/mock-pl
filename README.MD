@@ -33,7 +33,7 @@ There should be:
 #### To get started
 > - Ensure MongoDB is running properly
 > - Start Redis Server: `$ redis-server`
-> - Copy and Update Environment Variable: `cp .env.sample .env`
+> - Copy and Update Environment Variable: `cp .env.sample .env && cp .env.sample .env.docker`
 > - Install Dependencies: `$ yarn install`
 > - Start Application Server `$ yarn dev`
 > - To test with ngrok, start a tunnel with: `$ ngrok http 3000`
@@ -45,15 +45,18 @@ There should be:
 #### How to run linter
 >  `$ yarn lint`
 
-#### To get started with Docker - WIP
+#### To get started with Docker
  > - Install Docker
- > - Run `$ docker-compose up --build`
+ > - Give Start Shell Script Access: `$ chmod +x start.sh`
+ > - To See Start Shell Script Commands, Run: `$ ./start.sh -h`
+ > - Run `$ ./start.sh run` or `$ docker-compose up --build`
+ > - To Stop Containers, Run: `$ ./start.sh stop` or `$ docker-compose down`
  
- #### How to run the test suite in Docker - WIP
- > `$ docker-compose run -e "RAILS_ENV=test" mock_pl_api yarn run test -f d`
+ #### How to run the test suite in Docker
+ > `$ docker-compose run -e "RAILS_ENV=test" mock-pl npm run test -f d`
 
 #### Services (job queues, cache servers, search engines, etc.)
->- Redis - For Caching/Persistence
+>- Redis - For Caching & Session Persistence
 
 #### Deployment instructions for Heroku
 > - Add and Commit to Git `$ git am 'deploy: deploying to heroku'`

@@ -1,0 +1,10 @@
+.git
+.cache
+.yarn.lock
+*.md
+!README*.md
+README-secret.md
+node_modules
+node_modules/*
+dump.rdb
+*.log
