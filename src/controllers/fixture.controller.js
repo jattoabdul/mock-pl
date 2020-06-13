@@ -50,7 +50,7 @@ export const createFixture = async (req, res) => {
         message: 'Fixture created successfully 😊',
         fixture: newFixture
       }
-    })
+    }, 201)
   } catch (err) {
     return handleServerError(res, err)
   }

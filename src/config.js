@@ -17,6 +17,7 @@ const FixtureStatus = ['pending', 'started', 'completed']
 export default {
   environment: process.env.NODE_ENV || 'dev',
   dbUrl: process.env.DB_URL,
+  appURL: process.env.APP_URL,
   redisURL: process.env.REDIS_URL,
   port: process.env.PORT,
   saltingRounds: process.env.SALT_ROUND,

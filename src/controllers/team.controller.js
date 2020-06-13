@@ -38,7 +38,7 @@ export const createTeam = async (req, res) => {
         message: 'Team created successfully 😊',
         team: newTeam
       }
-    })
+    }, 201)
   } catch (err) {
     return handleServerError(res, err)
   }
