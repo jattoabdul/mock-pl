@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app:
+    container_name: mock-pl
+    restart: always
+    build: .
+    ports:
+      - '3000:3000'
+    links:
+      - redis
+      - mongo
+    env_file:
+      - .env.docker
+  mongo:
+    container_name: mock-pl-mongo
+    image: 'mongo:4'
+  redis:
+    container_name: mock-pl-redis
+    image: 'redis:4.0.11'
