@@ -122,7 +122,7 @@ export const removeTeam = async (req, res) => {
       }
     ])
 
-    if (!team.length) return handleServerError(res, 'Team not found or has been deleted', 403)
+    if (!team.length) return handleServerError(res, 'Team not found or has been deleted', 404)
 
     if (team[0].fixtures.length) return handleServerError(res, 'Team has fixtures, can\'t be deleted', 403)
 
