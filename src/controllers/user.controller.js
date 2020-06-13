@@ -1,6 +1,5 @@
 import {
   checkPassword,
-  // decodeToken,
   handleServerError,
   handleServerResponse,
   createToken
@@ -82,7 +81,6 @@ export const createUser = async (req, res) => {
  * @description receives user details and checks if it exists in the database and returns a token
  */
 export const loginUser = async (req, res) => {
-  // TODO: track login attempts
   try {
     const {
       email,
@@ -92,8 +90,6 @@ export const loginUser = async (req, res) => {
     const user = await UserModel.findOne({
       email: email.trim().toLowerCase()
     })
-
-    // TODO: save login attempts
 
     // if user is not found
     if (!user) {
