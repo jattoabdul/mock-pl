@@ -120,7 +120,7 @@ export const removeTeam = async (req, res) => {
           ]
         }
       }
-    ])
+    ]).allowDiskUse(true)
 
     if (!team.length) return handleServerError(res, 'Team not found or has been deleted', 404)
 

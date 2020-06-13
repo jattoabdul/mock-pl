@@ -27,7 +27,7 @@ export const search = async (req, res) => {
           ]
         }
       }
-    ])
+    ]).allowDiskUse(true)
 
     const fixtures = await FixtureModel.aggregate([
       {
@@ -38,7 +38,7 @@ export const search = async (req, res) => {
           ]
         }
       }
-    ])
+    ]).allowDiskUse(true)
 
     const result = [...teams, ...fixtures]
     if (!result.length) {
