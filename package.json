@@ -65,7 +65,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.13",
     "morgan": "~1.9.1",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "regenerator-runtime": "^0.13.5",
     "templatestringparser": "^1.1.0",
     "uuid": "^8.1.0"
